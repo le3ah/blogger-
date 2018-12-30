@@ -18,6 +18,18 @@ describe  'user creates new article' do
         expect(page).to have_content("New Body!")
         expect(page).to have_content("ruby technology")
       end
+      it "sees a single tag" do
+        article = Article.create(title: "New Title", body: "New Body")
+        tag = article.tags.create(name: "Name")
+
+        visit article_path(article)
+
+        click_link tag.name
+
+        expect(current_path).to eq(tag_path(tag))
+
+        expect(page).to have_content(tag.name)
+      end
     end
   end
 end
